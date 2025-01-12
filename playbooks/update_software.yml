@@ -1,0 +1,7 @@
+---
+- name: System-Updates auf Windows Server durchführen
+  hosts: windows
+  tasks:
+    - name: Führe Windows-Updates durch
+      win_updates:
+        reboot: yes

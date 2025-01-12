@@ -1,0 +1,29 @@
+---
+- name: Install Software on Windows Servers
+  hosts: all
+  tasks:
+    - name: Ensure Chocolatey is installed
+      win_chocolatey:
+        name: chocolatey
+        state: present
+
+    - name: Gather Chocolatey facts
+      win_chocolatey_facts:
+
+    - name: Install Google Chrome
+      win_chocolatey:
+        name: googlechrome
+        state: present
+      when: "'googlechrome' not in ansible_chocolatey.packages"
+
+    - name: Install Visual Studio Code
+      win_chocolatey:
+        name: vscode
+        state: present
+      when: "'vscode' not in ansible_chocolatey.packages"
+
+    - name: Install 7zip
+      win_chocolatey:
+        name: 7zip
+        state: present
+      when: "'7zip' not in ansible_chocolatey.packages"

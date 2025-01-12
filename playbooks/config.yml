@@ -1,0 +1,39 @@
+---
+- name: Windows-Server konfigurieren
+  hosts: windows
+  gather_facts: yes
+  tasks:
+
+    # 1. Installieren von Software (z. B. Google Chrome)
+    - name: Installiere Google Chrome
+      win_chocolatey_facts:
+      # Wenn Chocolatey noch nicht installiert ist, füge den Schritt zur Installation hinzu
+      #      win_chocolatey:
+      #        name: googlechrome
+      #        state: present
+
+    # 2. Benutzerkonto verwalten
+    - name: Erstelle ein neues Benutzerkonto
+      win_user:
+        name: johndoe
+        password: 'SecurePassword123!'
+        state: present
+        groups:
+          - Administrators
+
+    # 3. Ändern des Computernamens
+    - name: Ändere den Computernamen
+      win_hostname:
+        name: "WindowsServer01"
+      
+    # 4. Deaktivieren der Windows-Firewall
+    - name: Deaktiviere Windows-Firewall
+      win_service:
+        name: MpsSvc
+        state: stopped
+        start_mode: disabled
+
+    # 5. Installiere Updates (optional)
+    - name: Installiere Windows-Updates
+      win_updates:
+        reboot: yes
